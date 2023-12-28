@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Tarefa</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar  sticky-top bg-body-tertiary "style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <p class="navbar-brand" >Listar tarefas</p>
+    </div>
+</nav>
+<main class="container ">
+
+    <section class="mt-5">
+        <form   th:action="@{/tarefa/listAll}"  method="post">
+            <div class="row mb-3">
+                <label for="numero" class="col-sm-1   col-form-label">Número:</label>
+                <div class="col-sm-10">
+                    <input name="numero" id="numero" type="number" class="form-control " >
+                </div>
+            </div>
+            <br>
+            <div class="row mb-3">
+                <label for="tituloAndDescricao" class="col-sm-1   col-form-label">Titulo:</label>
+                <div class="col-sm-10">
+                    <input name="tituloAndDescricao"  type="text" class="form-control " id="tituloAndDescricao">
+                </div>
+            </div>
+            <br>
+            <div class="row mb-3">
+                <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="responsavel" class="col-sm-2 col-form-label">responsavel:</label>
+                        <div class="col-sm-5">
+                            <select id="responsavel"  name="responsavel" class="form-control">
+                                <option value="0" disabled selected hidden>Select</option>
+                                <option value="Marcos Sergio">Marcos Sergio</option>
+                                <option value="João marcelo">João marcelo</option>
+                                <option value="Thiago guilherme">Thiago guilherme</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="situacao" class="col-sm-2 col-form-label">situação:</label>
+                        <div class="col-sm-5">
+                            <select name="situacao" id="situacao"  class="form-control">
+                                <option value="0" disabled selected hidden>Select</option>
+                                <option value="EMANDAMENTO">Em andamento</option>
+                                <option value="concluída">Concluido</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary">Buscar tarefas</button>
+                </div>
+            </div>
+
+        </form>
+    </section>
+    <section>
+        <div class="mt-2" >
+            <div class="table-responsive-lg">
+                <table th:if="${atividades} != null" class="table table-hover w3-card w3-white w3-round w3-margin">
+
+
+                    <thead>
+                    <tr >
+                        <th scope="col">Número</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Responsavel</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                    </thead >
+
+                    <tbody >
+                    <tr th:if="${atividades.empty}">
+                        <td colspan="2"> No atividades Available </td>
+                    </tr>
+                    <tr th:each="atividade: ${atividades}">
+                        <td th:text="${atividade.id}"></td>
+                        <td th:text="*{atividade.titulo}"></td>
+                        <td th:text="*{atividade.responsavel}"></td>
+                        <td>
+                            <a th:href="@{'/tarefa/excluir/'+ ${atividade.id}}">Excluir</a>
+                            <a th:href="@{'/tarefa/concluir/'+ ${atividade.id}}">Concluir</a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
